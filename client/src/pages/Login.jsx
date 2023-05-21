@@ -8,6 +8,8 @@ export default function Login() {
         login();
     }
 
+    //Maquetado del Login
+
     return (
         <div>
             <h1>Login</h1>
