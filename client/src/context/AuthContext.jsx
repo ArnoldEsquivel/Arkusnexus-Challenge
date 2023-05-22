@@ -17,6 +17,7 @@ const AuthProvider = ({ children }) => {
 
     const logout = () => {
         // Lógica de cierre de sesión
+        window.localStorage.removeItem('session');
         setIsAuthenticated(false);
     };
 

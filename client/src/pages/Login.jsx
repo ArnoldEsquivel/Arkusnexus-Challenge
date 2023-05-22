@@ -11,9 +11,7 @@ export default function Login() {
     //Maquetado del Login
 
     return (
-        <div>
-            <h1>Login</h1>
-            <button onClick={handleLogin}>Login</button>
+        <div className="loginPageMainContainer">
         </div>
     )
 }
