@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './ManageAccounts.scss'
 import axios from 'axios';
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Modal } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import ManagerAccount from '../components/ManagerAccount';
 import CountTeamMembers from '../components/CountTeamMembers';
 import ChangeStatusAccount from '../components/ChangeStatusAccount';
+import EditAccount from '../components/EditAccount';
 
 export default function ManageAccounts() {
     const [account, setAccount] = useState({
@@ -30,7 +31,6 @@ export default function ManageAccounts() {
         await axios.get('/account_get')
             .then(res => {
                 setAccounts(res.data.accounts);
-                console.log(res);
                 setLoading(false);
             })
             .catch(err => {
@@ -86,12 +86,12 @@ export default function ManageAccounts() {
                     }
                 />
                 <Button
-                    variant="contained"
-                    color="primary"
+                    variant="outlined"
+                    color="success"
                     type="submit"
                     onClick={handleSubmit}
                 >
-                    Submit
+                    Create Account
                 </Button>
             </form>
             <TableContainer component={Paper}>
@@ -104,12 +104,13 @@ export default function ManageAccounts() {
                             <TableCell align='center'>Team Members</TableCell>
                             <TableCell>Created</TableCell>
                             <TableCell align='center'>Status</TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {
                             loading
-                                ? <TableRow>
+                                ? <TableRow >
                                     <TableCell>Loading...</TableCell>
                                 </TableRow>
                                 : accounts && accounts.map((account, index) => (
@@ -131,17 +132,16 @@ export default function ManageAccounts() {
                                             }
                                         </TableCell>
                                         <TableCell align='center'>
-                                            {
-                                                <CountTeamMembers id={account.id} />
-                                            }
+                                            {<CountTeamMembers id={account.id} />}
                                         </TableCell>
                                         <TableCell>
                                             {account.createdAt.slice(0, 10)}
                                         </TableCell>
                                         <TableCell align='center'>
-                                            {
-                                                <ChangeStatusAccount account={account} getAccounts={getAccounts} />
-                                            }
+                                            {<ChangeStatusAccount account={account} getAccounts={getAccounts} />}
+                                        </TableCell>
+                                        <TableCell align='center'>
+                                            {<EditAccount account={account} getAccounts={getAccounts} />}
                                         </TableCell>
                                     </TableRow>
                                 ))

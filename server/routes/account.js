@@ -57,4 +57,18 @@ router.get('/account_get', (req, res) => {
         }))
 })
 
+router.put('/account_update', (req, res) => {
+    const { accountUpdate } = req.body
+
+    Account.update(accountUpdate, { where: { id: accountUpdate.id } })
+        .then(() => res.send({
+            status: 200,
+            message: 'Account updated successfully'
+        }))
+        .catch((err) => res.send({
+            status: 400,
+            message: 'Please try again later'
+        }))
+})
+
 module.exports = router
