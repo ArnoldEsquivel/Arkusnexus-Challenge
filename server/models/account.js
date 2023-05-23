@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('./mysql');
-const User = require('./user');
+// const User = require('./user.js');
 
 const Account = sequelize.define('account', {
     id: {
@@ -19,10 +19,14 @@ const Account = sequelize.define('account', {
     operation_manager: {
         type: DataTypes.INTEGER,
         allowNull: true,
-        references: {
-            model: User,
-            key: 'id',
-        },
+        // references: {
+        //     model: 'users',
+        //     key: 'id',
+        // },
+    },
+    account_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true, //Checar donde se colo
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -42,11 +46,11 @@ const Account = sequelize.define('account', {
     paranoid: true,
 });
 
-Account.belongsTo(User, {
-    as: 'manager',
-    foreignKey: 'operation_manager',
-});
+// Account.hasOne(User, {
+//     as: 'manager',
+//     foreignKey: 'operation_manager',
+// });
 
-Account.sync({ alter: true });
+// Account.sync({ alter: true });
 
 module.exports = Account;

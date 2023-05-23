@@ -6,6 +6,8 @@ import PublicRoute from './router/publicRoute';
 
 const Login = lazy(() => import('./pages/Login'));
 const MyProfile = lazy(() => import('./pages/MyProfile'));
+const ManageUsers = lazy(() => import('./pages/ManageUsers'));
+const ManageAccounts = lazy(() => import('./pages/ManageAccounts'));
 
 function App() {
 
@@ -18,7 +20,8 @@ function App() {
           </Route>
           <Route path='/Private' element={<PrivateRoute />}>
               <Route index element={<MyProfile />} />
-              {/* <Route path='/Private/' element={} /> */}
+              <Route path='/Private/ManageUsers' element={<ManageUsers />} />
+              <Route path='/Private/ManageAccounts' element={<ManageAccounts />} />
             </Route>
         </Routes>
       </BrowserRouter>

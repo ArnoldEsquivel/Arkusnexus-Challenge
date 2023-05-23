@@ -1,18 +1,18 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const port = process.env.PORT || 5000;
 const app = express();
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Request-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+//Routes Import
+const account = require('./server/routes/account');
+const user = require('./server/routes/user');
 
-    next();
-})
-
+app.use(cors({ origin: 'http://127.0.0.1:5173' }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/api', account)
+app.use('/api', user)
 
 try {
     require("./server/models/mysql");

@@ -29,6 +29,6 @@ const TypeUser = sequelize.define('type_user', {
     paranoid: true,
 });
 
-TypeUser.sync({ alter: true });
+// TypeUser.sync({ alter: true });
 
 module.exports = TypeUser;

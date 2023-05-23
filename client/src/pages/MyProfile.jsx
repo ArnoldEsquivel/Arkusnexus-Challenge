@@ -10,7 +10,6 @@ export default function MyProfile() {
     return (
         <div>
             <h1>MyProfile</h1>
-            <button onClick={handleLogout}>Logout</button>
         </div>
     )
 }

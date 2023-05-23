@@ -1,0 +1,44 @@
+.modalChangeStatusAccountContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .modalChangeStatusAccountCard {
+        width: 420px;
+        border-radius: 1rem;
+        border: 3px solid white;
+        background-color: black;
+
+        .changeStatusAccountTitle {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            color: white;
+            border-bottom: 1px solid white;
+
+            .changeStatusAcountActiveText {
+                color: green;
+            }
+
+            .changeStatusAcountInactiveText {
+                color: red;
+            }
+        }
+
+        .changeStatusAccountName {
+            text-align: center;
+            margin-top: 1rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .changeStatusAccountButtonsContainer {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+        }
+    }
+}
