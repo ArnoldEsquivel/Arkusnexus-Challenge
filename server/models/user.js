@@ -37,6 +37,18 @@ const User = sequelize.define('user', {
             key: 'id',
         },
     },
+    cv_link: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+    },
+    technicality: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+    },
+    english_level: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: true,
@@ -55,16 +67,16 @@ const User = sequelize.define('user', {
     paranoid: true,
 });
 
-User.hasOne(Account, {
+User.belongsTo(Account, {
     as: 'account',
     foreignKey: 'account_id',
     targetKey: 'id',
 });
 
 User.belongsTo(TypeUser, {
-    as: 'type_user',
-    foreignKey: 'type_id',
-    targetKey: 'id',
+    as: 'role',
+    foreignKey: 'id',
+    sourceKey: 'type_id',
 });
 
 // User.sync({ alter: true });

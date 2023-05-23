@@ -97,14 +97,14 @@ export default function EditAccount({ account, getAccounts }) {
                         />
                         <div className='modalEditAccountButtons'>
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 color="error"
                                 onClick={() => { setOpen(false) }}
                             >
                                 Cancel
                             </Button>
                             <Button
-                                variant="outlined"
+                                variant="contained"
                                 color="success"
                                 type="submit"
                                 onClick={handleSubmit}
