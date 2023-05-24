@@ -28,6 +28,10 @@ const Account = sequelize.define('account', {
         type: DataTypes.INTEGER,
         allowNull: true, //Checar donde se colo
     },
+    created_by: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     createdAt: {
         type: DataTypes.DATE,
         allowNull: true,

@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('./database');
+const sequelize = require('./mysql');
 const User = require('./user');
 const Account = require('./account');
 
@@ -25,25 +25,17 @@ const AccountHistory = sequelize.define('account_history', {
             key: 'id',
         },
     },
-    type_member: {
-        type: DataTypes.STRING(100),
+    rol: {
+        type: DataTypes.TEXT,
         allowNull: false,
     },
-    manager_id: {
+    created_by: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: User,
             key: 'id',
-        },
-    },
-    start_day: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
-    last_day: {
-        type: DataTypes.DATE,
-        allowNull: true,
+        }
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -72,10 +64,10 @@ AccountHistory.belongsTo(Account, {
 });
 
 AccountHistory.belongsTo(User, {
-    as: 'manager',
-    foreignKey: 'manager_id',
+    foreignKey: 'created_by',
+    targetKey: 'id',
 });
 
-AccountHistory.sync({ alter: true });
+// AccountHistory.sync({ alter: true });
 
 module.exports = AccountHistory;

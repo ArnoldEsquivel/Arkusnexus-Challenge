@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+const { Op } = require('sequelize')
 
 router.put('/user_create', (req, res) => {
     const { user } = req.body
@@ -33,9 +34,9 @@ router.get('/user_get', (req, res) => {
         include: [{
             association: 'account',
             attributes: ['id', 'account_name', 'client_name']
-        // }, {
-        //     association: 'role',
-        //     attributes: ['id', 'user_type']
+            // }, {
+            //     association: 'role',
+            //     attributes: ['id', 'user_type']
         }],
         paranoid: false
     })
@@ -53,11 +54,14 @@ router.get('/user_get', (req, res) => {
 router.put('/get_manager_account', (req, res) => {
     const { id } = req.body
 
-    User.findOne({ where: { id: id } })
-        .then((user) => res.send({
+    User.findOne({ 
+        where: { id: id },
+        attributes: ['id', 'username'],
+    })
+        .then((manager) => res.send({
             status: 200,
             message: 'User retrieved successfully',
-            user: user
+            manager: manager
         }))
         .catch((err) => res.send({
             status: 400,
@@ -68,7 +72,7 @@ router.put('/get_manager_account', (req, res) => {
 router.put('/team_members_count', (req, res) => {
     const { id } = req.body
 
-    User.count({ where: { account_id: id } })
+    User.count({ where: { account_id: { [Op.eq]: id } } })
         .then((count) => res.send({
             status: 200,
             message: 'Team members count retrieved successfully',
@@ -79,5 +83,23 @@ router.put('/team_members_count', (req, res) => {
             message: err
         }))
 })
+
+router.put('/team_get', (req, res) => {
+    const { id } = req.body
+    
+    User.findAll({
+        where: { account_id: { [Op.eq]: id } },
+    })
+        .then((users) => res.send({
+            status: 200,
+            message: 'Team retrieved successfully',
+            users: users
+        }))
+        .catch((err) => res.send({
+            status: 400,
+            message: err
+        }))
+})
+
 
 module.exports = router

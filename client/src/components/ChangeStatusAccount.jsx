@@ -44,13 +44,15 @@ export default function ChangeStatusAccount({ account, getAccounts }) {
                 className='modalChangeStatusAccountContainer'
             >
                 <div className='modalChangeStatusAccountCard'>
-                    <p className='changeStatusAccountTitle'>
-                        Are you sure you want to
-                        <b className={account.deletedAt ? 'changeStatusAcountActiveText' : 'changeStatusAcountInactiveText'}>
-                            {account.deletedAt ? ' Activate ' : ' Inactivate '}
-                        </b>
-                        this account?
-                    </p>
+                    <div className='changeStatusAccountTitleContainer'>
+                        <p className='changeStatusAccountTitle'>
+                            Are you sure you want to
+                            <b className={account.deletedAt ? 'changeStatusAcountActiveText' : 'changeStatusAcountInactiveText'}>
+                                {account.deletedAt ? ' Activate ' : ' Inactivate '}
+                            </b>
+                            this account?
+                        </p>
+                    </div>
                     <p className='changeStatusAccountName'>{account.account_name} from {account.client_name}</p>
                     <div className='changeStatusAccountButtonsContainer'>
                         <Button

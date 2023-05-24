@@ -75,8 +75,8 @@ User.belongsTo(Account, {
 
 User.belongsTo(TypeUser, {
     as: 'role',
-    foreignKey: 'id',
-    sourceKey: 'type_id',
+    foreignKey: 'type_id',
+    targetKey: 'id',
 });
 
 // User.sync({ alter: true });

@@ -1,0 +1,20 @@
+.accountsHistoryTitleContainer {
+    width: 100%;
+    height: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px solid black;
+    padding: 0 1rem;
+    
+    p {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    
+    span {
+        margin-left: 1rem;
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,94 @@
+.alertCreateAccount {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 5.1rem;
+    margin-left: 5.4rem;
+    width: 90%;
+    z-index: 100;
+}
+
+.buttonCreateAccountContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    span {
+        font-size: 0.7rem;
+    }
+}
+
+.createAccountModal {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .createAccountModalContainer {
+        width: 420px;
+        border-radius: 1rem;
+        border: 3px solid white;
+        background-color: black;
+
+        .createAccountTitleContainer {
+            width: 100%;
+            height: 3.6rem;
+            border-bottom: 1px solid white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                text-align: center;
+                font-size: 1.5rem;
+                margin: 0;
+                color: white;
+            }
+        }
+
+        .modalCreateAccountForm {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+
+            p {
+                margin: 0;
+                color: white;
+                text-align: center;
+            }
+
+            .createAccountTextField {
+                margin: 0 0 1rem 0;
+
+                .MuiOutlinedInput-root {
+                    color: white;
+
+                    & fieldset {
+                        border: 2px solid white;
+                    }
+                }
+
+                &:hover fieldset {
+                    border: 2px solid #800180;
+                }
+
+                .Mui-focused fieldset {
+                    border: 2px solid #800180;
+                }
+
+                .MuiInputLabel-root {
+                    color: black;
+                    font-weight: bolder;
+                }
+            }
+
+            .createAccountModalButtons {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+            }
+        }
+    }
+
+}
