@@ -152,7 +152,11 @@ function Row({ account, getAccounts }) {
                                                                 {historyRow.action}
                                                             </TableCell>
                                                             <TableCell align='center'>
-                                                                {historyRow.user.username}
+                                                                {
+                                                                    historyRow.user === null
+                                                                        ? 'Not Assigned'
+                                                                        : historyRow.user.username
+                                                                }
                                                             </TableCell>
                                                         </TableRow>
                                                     ))

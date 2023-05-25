@@ -1,5 +1,6 @@
 import { createContext, useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -8,10 +9,8 @@ const AuthProvider = ({ children }) => {
         window.localStorage.getItem('session') ?? false
     );
 
-    const login = () => {
-        // Lógica de inicio de sesión
-        // window.localStorage.setItem('session', JSON.stringify(session))
-        window.localStorage.setItem('session', true)
+    const login = async (session) => {
+        window.localStorage.setItem('session', JSON.stringify(session))
         setIsAuthenticated(true);
     };
 
@@ -20,6 +19,8 @@ const AuthProvider = ({ children }) => {
         window.localStorage.removeItem('session');
         setIsAuthenticated(false);
     };
+
+    const refreshToken = () => {}
 
     return (
         <AuthContext.Provider value={{ isAuthenticated, login, logout }}>

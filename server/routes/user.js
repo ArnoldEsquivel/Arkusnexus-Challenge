@@ -1,7 +1,9 @@
+require('dotenv').config()
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 const { Op } = require('sequelize')
 
 router.put('/user_create', (req, res) => {
@@ -28,6 +30,79 @@ router.put('/user_create', (req, res) => {
         }
     })
 })
+
+router.put('/user_reset_password', (req, res) => {
+    let { password, id } = req.body
+
+    bcrypt.hash(password, 10, (err, hash) => {
+        if (err) {
+            res.send({
+                status: 400,
+                message: 'Please try again later'
+            })
+        } else {
+            password = hash
+
+            User.update({ password: password }, { where: { id: id } })
+                .then(() => res.send({
+                    status: 200,
+                    message: 'User updated successfully'
+                }))
+                .catch((err) => res.send({
+                    status: 400,
+                    message: 'Please try again later'
+                }))
+        }
+    })
+})
+
+router.put('/user_login', (req, res) => {
+    const { email, password } = req.body
+
+    User.findOne({ where: { email: email } })
+        .then((user) => {
+            if (user == null) {
+                res.send({
+                    status: 400,
+                    message: 'Cant find email'
+                })
+            } else {
+                bcrypt.compare(password, user.dataValues.password, (err, result) => {
+                    if (err) {
+                        res.send({
+                            status: 400,
+                            message: 'Password is incorrect'
+                        })
+                    } else if (result) {
+                        const secret = process.env.SECRET_KEY
+                        const token = jwt.sign({ email: user.email, userId: user.id }, secret, { expiresIn: '3h' });
+
+                        res.send({
+                            status: 200,
+                            message: 'User logged in successfully',
+                            user: {
+                                id: user.id,
+                                username: user.username,
+                                type_id: user.type_id,
+                                account_id: user.account_id,
+                                account_rol: user.account_rol,
+                            },
+                            token: token
+                        })
+                    } else {
+                        res.send({
+                            status: 400,
+                            message: 'Email or password is incorrect'
+                        })
+                    }
+                })
+            }
+        }).catch((err) => res.send({
+            status: 400,
+            message: 'Please try again later'
+        }))
+})
+
 
 router.put('/user_update', (req, res) => {
     const { newUser } = req.body

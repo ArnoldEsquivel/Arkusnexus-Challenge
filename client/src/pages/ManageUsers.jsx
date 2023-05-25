@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import CreateUser from '../components/CreateUser';
 import EditUser from '../components/EditUser';
 import ChangeStatusUser from '../components/ChangeStatusUser';
+import ResetPassword from '../components/ResetPassword';
 import { CircularProgress } from '@mui/material';
 
 export default function ManageUsers() {
@@ -27,7 +28,6 @@ export default function ManageUsers() {
             .then(res => {
                 setUsers(res.data.users);
                 setLoading(false)
-                console.log(res.data.users);
             })
             .catch(err => {
                 console.log(err);
@@ -67,13 +67,13 @@ export default function ManageUsers() {
                                 Account
                             </TableCell>
                             <TableCell className='tableCellHeaderManageUsers' align='center'>
-                                Rol
-                            </TableCell>
-                            <TableCell className='tableCellHeaderManageUsers' align='center'>
-                                Technicality
+                                Role
                             </TableCell>
                             <TableCell className='tableCellHeaderManageUsers'>
                                 English
+                            </TableCell>
+                            <TableCell className='tableCellHeaderManageUsers' align='center'>
+                                Password
                             </TableCell>
                             <TableCell className='tableCellHeaderManageUsers' align='center'>
                                 Status
@@ -113,19 +113,15 @@ export default function ManageUsers() {
                                         <TableCell align='center'>
                                             {handleTypeUser(user.type_id)}
                                         </TableCell>
-                                        <TableCell align='center'>
-                                            {
-                                                user.technicality
-                                                    ? user.technicality
-                                                    : 'Not Assigned'
-                                            }
-                                        </TableCell>
                                         <TableCell>
                                             {
                                                 user.english_level
                                                     ? user.english_level
                                                     : 'Not Assigned'
                                             }
+                                        </TableCell>
+                                        <TableCell sx={{padding: '0px'}} align='center'>
+                                            <ResetPassword user={user} />
                                         </TableCell>
                                         <TableCell align='center' sx={{ padding: '0px' }}>
                                             <ChangeStatusUser user={user} getUsers={getUsers} />
