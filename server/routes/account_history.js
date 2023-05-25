@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const AccountHistory = require('../models/account_history')
+const User = require('../models/user')
 const { Op } = require('sequelize')
 
 router.put('/account_history_create', (req, res) => {
@@ -29,6 +30,18 @@ router.put('/account_history_update', (req, res) => {
             status: 400,
             message: 'Please try again later'
         }))
+
+    User.update(
+        {account_id: null},
+        {where: {id: account_history.user_id}})
+        .then(() => res.send({
+            status: 200,
+            message: 'Account History updated successfully'
+        }))
+        .catch((err) => res.send({
+            status: 400,
+            message: 'Please try again later'
+        }))
 })
 
 router.delete('/account_history_delete', (req, res) => {
@@ -45,11 +58,18 @@ router.delete('/account_history_delete', (req, res) => {
         }))
 })
 
-router.get('/account_history_get', (req, res) => {
+router.put('/account_history_get', (req, res) => {
     const { id } = req.body
 
     AccountHistory.findAll({
-        where: { account_id: { [Op.eq]: id } },
+        where: { account_id: id },
+        include: [{
+            association: 'user',
+            atrributes: ['id', 'username', 'account_rol', 'email']
+        },{
+            association: 'account',
+            atrributes: ['id', 'account_name']
+        }],
         paranoid: false
     })
         .then((history) => res.send({

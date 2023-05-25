@@ -1,0 +1,63 @@
+.manageTeamButton {
+    font-weight: bold;
+    color: #800180;
+    border-radius: 5px;
+    border: 1px solid #800180;
+    align-self: center;
+
+    &:hover {
+        background-color: #800180;
+        color: white;
+    }
+}
+
+.manageTeamModalContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .manageTeamModal {
+        width: 690px;
+        background-color: white;
+        border-radius: 5px;
+        border: 1px solid black;
+
+        .manageTeamAlert {
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin-top: 2rem;
+        }
+    }
+    
+    .manageTeamModalHeader {
+        border-radius: 5px 5px 0 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 3px solid black;
+
+        h1 {
+            color: black;
+            margin: 0;
+        }
+    }
+
+    .manageTeamTableContainer {
+        padding: 1rem;
+
+        .tableContainerMuiManageTeam {
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+
+            .manageTeamTableHeader {
+                background-color: black;
+                color: white;
+                font-weight: bold;
+            }
+        }
+    }    
+}

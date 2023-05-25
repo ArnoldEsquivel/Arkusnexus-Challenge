@@ -29,6 +29,87 @@ router.put('/user_create', (req, res) => {
     })
 })
 
+router.put('/user_update', (req, res) => {
+    const { newUser } = req.body
+
+    User.update(newUser, { where: { id: newUser.id } })
+        .then(() => res.send({
+            status: 200,
+            message: 'User updated successfully'
+        }))
+        .catch((err) => res.send({
+            status: 400,
+            message: 'Please try again later'
+        }))
+})
+
+router.delete('/user_deactivate/:id', (req, res) => {
+    const { id } = req.params
+
+    User.destroy({ where: { id: id } })
+        .then(() => res.send({
+            status: 200,
+            message: 'User deactivated successfully'
+        }))
+        .catch((err) => res.send({
+            status: 400,
+            message: 'Please try again later'
+        }))
+})
+
+router.put('/user_activate/:id', (req, res) => {
+    const { id } = req.params
+
+    User.restore({ where: { id: id } })
+        .then(() => res.send({
+            status: 200,
+            message: 'User activated successfully'
+        }))
+        .catch((err) => res.send({
+            status: 400,
+            message: 'Please try again later'
+        }))
+})
+
+router.put('/user_reset_password', (req, res) => {
+    const { user } = req.body
+
+    bcrypt.hash(user.password, 10, (err, hash) => {
+        if (err) {
+            res.send({
+                status: 400,
+                message: 'Please try again later'
+            })
+        } else {
+            user.password = hash
+
+            User.update(user, { where: { id: user.id } })
+                .then(() => res.send({
+                    status: 200,
+                    message: 'User updated successfully'
+                }))
+                .catch((err) => res.send({
+                    status: 400,
+                    message: 'Please try again later'
+                }))
+        }
+    })
+})
+
+router.delete('/user_delete', (req, res) => {
+    const { id } = req.body
+
+    User.destroy({ where: { id: id } })
+        .then(() => res.send({
+            status: 200,
+            message: 'User deleted successfully'
+        }))
+        .catch((err) => res.send({
+            status: 400,
+            message: 'Please try again later'
+        }))
+})
+
 router.get('/user_get', (req, res) => {
     User.findAll({
         include: [{
@@ -54,7 +135,7 @@ router.get('/user_get', (req, res) => {
 router.put('/get_manager_account', (req, res) => {
     const { id } = req.body
 
-    User.findOne({ 
+    User.findOne({
         where: { id: id },
         attributes: ['id', 'username'],
     })
@@ -86,7 +167,7 @@ router.put('/team_members_count', (req, res) => {
 
 router.put('/team_get', (req, res) => {
     const { id } = req.body
-    
+
     User.findAll({
         where: { account_id: { [Op.eq]: id } },
     })

@@ -29,6 +29,10 @@ const User = sequelize.define('user', {
             key: 'id',
         },
     },
+    account_rol: {
+        type: DataTypes.STRING(50),
+        allowNull: true,
+    },
     type_id: {
         type: DataTypes.INTEGER,
         allowNull: false,

@@ -1,0 +1,49 @@
+.accountMemberDeleteAlert {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.accountMemberDeleteModalContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .accountMemberDeleteModal {
+        width: 420px;
+        background-color: white;
+        border-radius: 5px;
+        border: 1px solid black;
+
+        .accountMemberDeleteTitle {
+            border-radius: 5px 5px 0 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 3px solid black;
+            background-color: black;
+
+            h1 {
+                color: white;
+                margin: 0;
+            }
+        }
+
+        p {
+            margin: 0;
+            padding: 1rem;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .accountMemberDeleteButtons {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 1rem;
+        }
+    }
+}

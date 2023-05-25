@@ -4,8 +4,9 @@ import axios from 'axios';
 import { Button, TextField, IconButton, InputAdornment, Select, MenuItem, Alert, Modal, CircularProgress } from '@mui/material';
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
+import { AiOutlinePlusCircle } from 'react-icons/ai';
 
-export default function CreateUser() {
+export default function CreateUser({ getUsers }) {
     const [open, setOpen] = useState(false);
     const [alert, setAlert] = useState({ success: false, msg: '' });
     const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ export default function CreateUser() {
         password: '',
         email: '',
         account_id: 0,
+        account_rol: 'User',
         technicality: '',
         cv_link: '',
         type_id: 0,
@@ -120,6 +122,7 @@ export default function CreateUser() {
                 setOpen(false);
                 setLoading(false);
                 setTimeout(() => {
+                    getUsers();
                     setAlert({ success: false, msg: '' });
                 }, 3000);
             })
@@ -140,11 +143,16 @@ export default function CreateUser() {
                 {alert.msg}
             </Alert>
             <Button
-                variant='contained'
                 color='success'
                 onClick={() => { setOpen(true) }}
+                fullWidth
+                size='large'
+                sx={{ padding: '0' }}
             >
-                Create User
+                <div className='buttonCreateUserContainer'>
+                    <AiOutlinePlusCircle size='1.8rem' />
+                    <span>Create</span>
+                </div>
             </Button>
             <Modal
                 open={open}
@@ -218,7 +226,7 @@ export default function CreateUser() {
                                 placeholder='Developer Full Stack'
                                 name='technicality'
                                 defaultValue={user.technicality}
-                                onChange={handleEmailChange}
+                                onChange={handleUser}
                                 required
                             />
                             <p>CV Link</p>
@@ -228,7 +236,7 @@ export default function CreateUser() {
                                 placeholder='www.google.com/docs/cv'
                                 name='cv_link'
                                 defaultValue={user.cv_link}
-                                onChange={handleEmailChange}
+                                onChange={handleUser}
                                 required
                             />
                             <p>Type User</p>
@@ -251,7 +259,7 @@ export default function CreateUser() {
                                 size='small'
                                 className='selectCreateUser'
                                 variant='outlined'
-                                name='english_leve'
+                                name='english_level'
                                 defaultValue={user.english_level}
                                 onChange={handleUser}
                                 required
@@ -284,6 +292,18 @@ export default function CreateUser() {
                                         </MenuItem>
                                     )
                                 })}
+                            </Select>
+                            <p>Account Rol</p>
+                            <Select
+                                size='small'
+                                className='selectCreateUser'
+                                variant='outlined'
+                                name='account_rol'
+                                defaultValue={user.account_rol}
+                                onChange={handleUser}
+                            >
+                                <MenuItem value='User'>User</MenuItem>
+                                <MenuItem value='Manager'>Manager</MenuItem>
                             </Select>
                             <div className='modalCreateUserButtonsContainer'>
                                 <Button

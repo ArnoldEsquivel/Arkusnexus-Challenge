@@ -1,0 +1,23 @@
+.tableCellHeaderManageUsers {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+
+}
+
+.tableRowBodyManageUsers{
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.171);
+    }
+}
+
+.manageUsersTitleContainer {
+    width: 100%;
+    border-bottom: 2px solid black;
+    margin-bottom: 2rem;
+
+    h1 {
+        text-align: center;
+        margin: 0;
+    }
+}

@@ -28,14 +28,13 @@ function Row({ account, getAccounts }) {
     const [count, setCount] = useState()
 
     useEffect(() => {
-        getHistory()
         getCreatedBy()
         getCount()
     }, [])
 
     const getHistory = async () => {
         setLoading(true)
-        await axios.get('/account_history_get', { id: account.id })
+        await axios.put('/account_history_get', { id: account.id })
             .then(res => {
                 setHistory(res.data.history);
                 setLoading(false)
@@ -68,39 +67,44 @@ function Row({ account, getAccounts }) {
 
     return (
         <>
-            <TableRow>
-                <TableCell>
+            <TableRow className='tableRowBodyManageAccounts'>
+                <TableCell sx={{ padding: '0px' }} onClick={() => setOpen(!open)}>
                     <IconButton
                         aria-label="expand row"
                         size="small"
-                        onClick={() => setOpen(!open)}
+                        onClick={() => (
+                            setOpen(!open),
+                            open
+                                ? null
+                                : getHistory()
+                        )}
                     >
                         {open ? <AiOutlineArrowUp /> : <AiOutlineArrowDown />}
                     </IconButton>
                 </TableCell>
-                <TableCell component="th" scope="row">
+                <TableCell onClick={() => setOpen(!open)}>
                     {account.account_name}
                 </TableCell>
-                <TableCell>
+                <TableCell onClick={() => setOpen(!open)}>
                     {account.client_name}
                 </TableCell>
-                <TableCell>
+                <TableCell onClick={() => setOpen(!open)}>
                     {
                         account.operation_manager
                             ? <ManagerAccount id={account.operation_manager} />
                             : 'Not Assigned'
                     }
                 </TableCell>
-                <TableCell align='center'>
-                    {<ManageTeam count={count} account={account} />}
+                <TableCell align='center' sx={{ padding: '0px' }}>
+                    {<ManageTeam count={count} account={account} getAccounts={getAccounts} />}
                 </TableCell>
-                <TableCell>
+                <TableCell onClick={() => setOpen(!open)}>
                     {account.createdAt.slice(0, 10)}
                 </TableCell>
-                <TableCell align='center'>
+                <TableCell align='center' sx={{ padding: '0px' }}>
                     {<ChangeStatusAccount account={account} getAccounts={getAccounts} />}
                 </TableCell>
-                <TableCell align='center'>
+                <TableCell align='center' sx={{ padding: '0px' }}>
                     {<EditAccount account={account} getAccounts={getAccounts} />}
                 </TableCell>
             </TableRow>
@@ -110,32 +114,52 @@ function Row({ account, getAccounts }) {
                         <Box sx={{ margin: 1 }}>
                             <div className='accountsHistoryTitleContainer'>
                                 <p>{account.account_name}</p>
-                                <span>Created by <b>{createdBy}</b> on <b>{account.createdAt.slice(0, 10)}</b></span>
+                                <span>Account created by <b>{createdBy}</b> on <b>{account.createdAt.slice(0, 10)}</b></span>
                             </div>
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Date</TableCell>
-                                        <TableCell>Customer</TableCell>
-                                        <TableCell align="right">Amount</TableCell>
-                                        <TableCell align="right">Total price ($)</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {/* {row.history.map((historyRow) => (
-                                        <TableRow key={historyRow.date}>
-                                            <TableCell component="th" scope="row">
-                                                {historyRow.date}
-                                            </TableCell>
-                                            <TableCell>{historyRow.customerId}</TableCell>
-                                            <TableCell align="right">{historyRow.amount}</TableCell>
-                                            <TableCell align="right">
-                                                {Math.round(historyRow.amount * row.price * 100) / 100}
-                                            </TableCell>
+                            <div className='accountsHistoryTableContainer'>
+                                <Table size="small" aria-label="purchases">
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell className='accountHistoryTableCellHeader' align='center'>Date</TableCell>
+                                            <TableCell className='accountHistoryTableCellHeader' align='center'>Account</TableCell>
+                                            <TableCell className='accountHistoryTableCellHeader' align='center'>Action</TableCell>
+                                            <TableCell className='accountHistoryTableCellHeader' align='center'>User</TableCell>
                                         </TableRow>
-                                    ))} */}
-                                </TableBody>
-                            </Table>
+                                    </TableHead>
+                                    <TableBody>
+                                        {
+                                            loading
+                                                ? <TableRow>
+                                                    <TableCell colSpan={4} align='center'>
+                                                        <CircularProgress sx={{ color: 'black' }} />
+                                                    </TableCell>
+                                                </TableRow>
+                                                : history.length === 0
+                                                    ? <TableRow>
+                                                        <TableCell colSpan={4} align='center'>
+                                                            No history
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    : history.map((historyRow, index) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell align='center'>
+                                                                {historyRow.createdAt.slice(0, 10)}
+                                                            </TableCell>
+                                                            <TableCell align='center'>
+                                                                {historyRow.account.account_name}
+                                                            </TableCell>
+                                                            <TableCell align='center'>
+                                                                {historyRow.action}
+                                                            </TableCell>
+                                                            <TableCell align='center'>
+                                                                {historyRow.user.username}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))
+                                        }
+                                    </TableBody>
+                                </Table>
+                            </div>
                         </Box>
                     </Collapse>
                 </TableCell>
@@ -154,6 +178,7 @@ export default function ManageAccounts() {
     const [user, setUser] = useState({
         id: 3,
     }); //Crear sesion para obtener el id del usuario logueado
+    const [rechargeAccounts, setRechargeAccounts] = useState(false);
 
     useEffect(() => {
         getAccounts()
@@ -173,18 +198,21 @@ export default function ManageAccounts() {
 
     return (
         <div>
+            <div className='accountsManageTitleContainer'>
+                <h1>Teams & Accounts Managment</h1>
+            </div>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell />
-                            <TableCell>Name</TableCell>
-                            <TableCell>Client</TableCell>
-                            <TableCell>Manager</TableCell>
-                            <TableCell align='center'>Team Members</TableCell>
-                            <TableCell>Created</TableCell>
-                            <TableCell align='center'>Status</TableCell>
-                            <TableCell sx={{ padding: '0px' }}>
+                            <TableCell className='tableCellHeaderManageAccounts' />
+                            <TableCell className='tableCellHeaderManageAccounts'>Name</TableCell>
+                            <TableCell className='tableCellHeaderManageAccounts'>Client</TableCell>
+                            <TableCell className='tableCellHeaderManageAccounts'>Manager</TableCell>
+                            <TableCell className='tableCellHeaderManageAccounts' align='center'>Team Members</TableCell>
+                            <TableCell className='tableCellHeaderManageAccounts'>Created</TableCell>
+                            <TableCell className='tableCellHeaderManageAccounts' align='center'>Status</TableCell>
+                            <TableCell className='tableCellHeaderManageAccounts' sx={{ padding: '0px' }}>
                                 <CreateAccount user={user} getAccounts={getAccounts} />
                             </TableCell>
                         </TableRow>
@@ -193,10 +221,12 @@ export default function ManageAccounts() {
                         {
                             loading
                                 ? <TableRow >
-                                    <TableCell>Loading...</TableCell>
+                                    <TableCell colSpan={8} align='center'>
+                                        <CircularProgress sx={{ color: 'black' }} />
+                                    </TableCell>
                                 </TableRow>
                                 : accounts && accounts.map((account, index) => (
-                                    <Row key={index} account={account} />
+                                    <Row key={index} account={account} getAccounts={getAccounts} />
                                 ))
                         }
                     </TableBody>

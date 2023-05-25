@@ -3,7 +3,7 @@ const sequelize = require('./mysql');
 const User = require('./user');
 const Account = require('./account');
 
-const AccountHistory = sequelize.define('account_history', {
+const AccountHistory = sequelize.define('accounts_history', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -25,17 +25,9 @@ const AccountHistory = sequelize.define('account_history', {
             key: 'id',
         },
     },
-    rol: {
+    action: {
         type: DataTypes.TEXT,
         allowNull: false,
-    },
-    created_by: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: User,
-            key: 'id',
-        }
     },
     createdAt: {
         type: DataTypes.DATE,
@@ -51,20 +43,20 @@ const AccountHistory = sequelize.define('account_history', {
         type: DataTypes.DATE,
         allowNull: true,
     },
+}, {
+    paranoid: true,
+    freezeTableName: true,
 });
 
 AccountHistory.belongsTo(User, {
     as: 'user',
     foreignKey: 'user_id',
+    targetKey: 'id',
 });
 
 AccountHistory.belongsTo(Account, {
     as: 'account',
     foreignKey: 'account_id',
-});
-
-AccountHistory.belongsTo(User, {
-    foreignKey: 'created_by',
     targetKey: 'id',
 });
 

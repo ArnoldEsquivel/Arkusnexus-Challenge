@@ -18,3 +18,39 @@
         font-size: 1rem;
     }
 }
+
+
+.accountsHistoryTableContainer {
+    border: 2px solid black;
+    margin-top: 1rem;
+
+    .accountHistoryTableCellHeader {
+        background-color: black;
+        color: white;
+        font-weight: bold;
+    }
+}
+
+.accountsManageTitleContainer {
+    width: 100%;
+    border-bottom: 2px solid black;
+    margin-bottom: 2rem;
+
+    h1 {
+        text-align: center;
+        margin: 0;
+    }
+}
+
+.tableCellHeaderManageAccounts {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+
+}
+
+.tableRowBodyManageAccounts {
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.171);
+    }
+}

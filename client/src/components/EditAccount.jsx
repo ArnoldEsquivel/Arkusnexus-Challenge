@@ -31,6 +31,10 @@ export default function EditAccount({ account, getAccounts }) {
                 console.log(err);
                 setLoading(false);
                 setAlert({ success: false, msg: 'Error updating account, please try again later' });
+                setTimeout(() => {
+                    setAlert({ success: false, msg: '' });
+                    getAccounts();
+                }, 3000)
             })
     }
 
