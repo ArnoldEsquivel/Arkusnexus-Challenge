@@ -14,20 +14,14 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        // const session = {
-        //     user: 'prueba',
-        //     token: '123456789'
-        // }
-        // login(session)
         await axios.put('/user_login', { email, password })
             .then(res => {
             if (res.data.status === 200) {
-                console.log(res.data);
-                // const session = {
-                //     token: res.data.token,
-                //     user: res.data.user
-                // }
-                // login(session);
+                const session = {
+                    token: res.data.token,
+                    user: res.data.user
+                }
+                login(session);
             } else {
                 setAlert({
                     success: false,
